@@ -31,14 +31,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ivan-Malakhovskyi/goiteens-ts-course.git"
+    "url": "git+https://github.com/DivenokPotap/TYPESCRIPTHW.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/Ivan-Malakhovskyi/goiteens-ts-course/issues"
+    "url": "https://github.com/DivenokPotap/TYPESCRIPTHW.git"
   },
-  "homepage": "https://github.com/Ivan-Malakhovskyi/goiteens-ts-course#readme"
+  "homepage": "https://github.com/DivenokPotap/TYPESCRIPTHW.git"
 }

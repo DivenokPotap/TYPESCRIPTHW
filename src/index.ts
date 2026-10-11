@@ -1,262 +1,111 @@
-// **public** - це як всі властивості та методи в js, можна викликати будь-де
-// **private** - є доступ тільки в класі, не наслідується
-// **protected** - наслідується, не можна викликати в екземплярі, але можна звернутись до властивості через метод класу або через геттери і сеттери
+class Pet { 
+    constructor(
+    public name: string,
+    public age: number
+) {}
 
-// Вибираємо за змістом,
-// public - коли це інтерфейс взаємодії,
-// private - коли це технічні методи або властивості, які не варто викликати поза класом,
-// protected - коли це технічні методи або властивості, які не варто викликати поза, але при цьому вони повинні наслідуватися дочірніми.
+    getInfo():string {
+        return `${this.name}, ${this.age} роки`
+    }
+}
 
-// class Student {
-//   private friends: string[] = [];
-//   protected createdAt: Date = new Date();
-//   private id: number = 0;
+const cat = new Pet("Мурзик", 2);
+const dog = new Pet("Барсик", 4);
 
-//   constructor(
-//     public name: string = "",
-//     public age: number = 0,
-//     public city: string = "",
-//   ) {}
+console.log(dog, cat)
+console.log(cat.getInfo())
+console.log(dog.getInfo())
 
-//   public addFriend(newFriend: string) {
-//     this.friends.push(newFriend);
-//   }
+class Hero {
+    constructor(
+    public name: string,
+    private health: number,
+    public level: number) {}
 
-//   public showFriends(this: Student) {
-//     console.log(this.friends);
-//   }
-// }
+    isAlive(): boolean {
+        return this.health > 0
+    }
 
-// const student = new Student("Bob", 19, "Kyiv");
-// student.friends.push("");
+    describe(): string{
+        const status = this.isAlive() ? "живий" : "мертвий";
+        return `герой ${this.name}, його рівень: ${this.level}, цей герой ${status}`
+    }
+}
 
-// student.addFriend("Taras");
+const deadHero = new Hero("Артас",0,50)
 
-// console.log(student);
-// student.showFriends();
+console.log(deadHero.describe())
+console.log(deadHero.isAlive())
 
-// const copy = {
-//   showFriends: student.showFriends,
-//   addFriend: student.addFriend,
-//   name: "Name",
-//   age: 20,
-//   city: "",
-//   friends: ["new friend"],
-//   createdAt: new Date(),
-// };
+const heroes: Hero[] = [
+    new Hero("Юлій", 100, 13),
+    new Hero("Дон Кіхот", 59, 20),
+    new Hero("Альдебаран", 82, 18),
+]
+ 
+const names: string[] = heroes.map(heroes => heroes.name);
 
-// copy.showFriends();
+console.log(names)
 
-// class NewStudent extends Student {
-//   show() {
-//     console.log(this.createdAt);
-//   }
-// }
+class Book {
+    title: string;
+    author: string;
+    pages: number;
 
-// const student1 = new NewStudent();
-// student1.show();
+    constructor(title: string, author: string, pages: number) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+    }
+}
 
-// SET & GET мають вищий пріоритет при зверненні до ключа, якщо назва змінних збігається
+const philosophersStoneBook = new Book("Гаррі")
 
-// type TPersonalInfo = {
-//   firstName: string;
-//   lastName: string;
-// };
+class Wallet{
+    private balance: number = 0
+    
+    constructor(balance: number) {
+        this.balance = balance
+    }
 
-// class Person {
-//   private personalInfo: TPersonalInfo = {
-//     firstName: "",
-//     lastName: "",
-//   };
+    public deposit(amount:number){
+        return this.balance += amount
+    }
 
-//   public getFirstName() {
-//     console.log("getFirstName", this.personalInfo);
-//   }
+    public spend(amount: number) : boolean {
+        if (this.balance >= amount) {
+            this.balance -= amount
+            console.log(this.balance)
+            return true
+        } else {
+            console.log("Недостатньо коштів")
+            return false
+        }
+    }
+}
 
-//   set firstName(value: string) {
-//     this.personalInfo.firstName = value;
-//   }
+const myWallet = new Wallet(0)
 
-//   set lastName(value: string) {
-//     this.personalInfo.lastName = value;
-//   }
+console.log(myWallet.deposit(1000))
+console.log(myWallet.spend(1001))
+console.log(myWallet.deposit(1000))
+console.log(myWallet.spend(1001))
 
-//   get personalData() {
-//     console.log("personalData");
-//     console.log(this.personalInfo);
-//     return this.personalInfo;
-//   }
-// }
 
-// const person = new Person();
-// person.firstName = "new first name";
-// person.lastName = "new last name";
+Wallet.balance = 1000
 
-// person.getFirstName();
-// person.personalData;
+class Character {
+    protected secretPower: string
+    
+    constructor(secretPower: string) {
+        this.secretPower = secretPower
+    }
 
-// class House {
-//   constructor(
-//     public street: string,
-//     public name: string,
-//   ) {}
+    public whatIsThisPower(ability: string) {
+        return this.secretPower = ability
+    }
+}
 
-//   showAddress(this: House) {
-//     console.log(this.street);
-//   }
-// }
+const characterSon = new Character("")
 
-// class StoneHouse extends House {
-//   constructor(
-//     street: string,
-//     name: string,
-//     public address: number,
-//   ) {
-//     super(street, name);
-//   }
-
-//   get showStreet() {
-//     return this.street;
-//   }
-
-//   set setAddress(newAddress: number) {
-//     this.address = newAddress;
-//   }
-// }
-
-// const stone = new StoneHouse("S.Bandery", "house", 28);
-// console.log(stone.showStreet);
-// console.log((stone.setAddress = 62));
-
-// Статичні властивості залишаються в класі, не йдуть на прототип
-
-// Статичний метод по факту - це як звичайна функція, що зберігається у класі.
-
-// Звертання до статичних властивостей в статичних методів через this
-
-// class UserStatic {
-//   private static count = 0;
-
-//   constructor() {
-//     UserStatic.count += 1;
-//   }
-
-//   public static runStaticMethod() {
-//     console.log("RUN STATIC");
-//     console.log(this.count);
-//   }
-
-//   public showCount() {
-//     console.log(UserStatic.count);
-//   }
-// }
-
-// const obj1 = new UserStatic();
-// const obj2 = new UserStatic();
-// const obj3 = new UserStatic();
-// const obj4 = new UserStatic();
-
-// obj1.showCount();
-// obj1.showCount();
-// obj1.showCount();
-// obj1.showCount();
-// obj2.showCount();
-// obj3.showCount();
-
-// abstract class Plane {
-//   protected pilotInCabin: boolean = false;
-//   public sitInPlan() {
-//     this.pilotInCabin = true;
-//   }
-
-//   public abstract startEngine(): boolean;
-// }
-
-// class Maize extends Plane {
-//   public startEngine() {
-//     // Запускаємо гвинти двигуна
-//     return true;
-//   }
-// }
-
-// class Boeing extends Plane {
-//   public startEngine() {
-//     // Розігріваємо реактивні турбіни
-//     return true;
-//   }
-// }
-
-// type TExample = {};
-
-// interface IFlyable {
-//   attitude: number;
-//   fly: () => void;
-// }
-
-// interface ISwimmable {
-//   depth: number;
-//   swim: () => void;
-// }
-
-// class Duck implements IFlyable, ISwimmable {
-//   constructor(
-//     public attitude: number = 0,
-//     public depth: number = 0,
-//   ) {}
-
-//   fly() {
-//     console.log("FLy");
-//   }
-
-//   swim() {
-//     console.log("SWIM");
-//   }
-// }
-
-// IIFE
-
-// (() => {})();
-
-// enum Admin {
-//   admin = "admin",
-//   superadmin = "superadmin",
-// }
-
-// export type TAdmin = "admin" | "superadmin";
-
-// interface IReadOnly {
-//   readonly admin: Admin;
-// }
-
-// const user: IReadOnly = {
-//   admin: Admin.admin,
-// };
-
-// user.admin = Admin.admin;
-
-// type IFunc = (a: number) => void;
-// interface A {
-//   id: string;
-//   (a: number): void;
-// }
-
-// interface B extends A {
-//   createdAt: string;
-// }
-
-// interface IPerson {
-//   name?: string;
-//   age: number;
-// }
-
-// class Person implements IPerson {
-//   //  pu name?: string;
-
-//   constructor(public age: number) {}
-
-//   setAge(n: number) {
-//     this.age = n;
-//   }
-// }
-
-// const person = new Person();
+console.log(characterSon.whatIsThisPower("Маніпуляція вогнем"))
